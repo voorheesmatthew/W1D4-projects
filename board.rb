@@ -6,36 +6,36 @@ class Board
       Array.new(9) { Tile.new(0) }
     end
   end
-
+  
   def self.from_file(filename)
     rows = File.readlines(filename).map(&:chomp)
     tiles = rows.map do |row|
       nums = row.split("").map { |char| Integer(char) }
       nums.map { |num| Tile.new(num) }
     end
-
+  
     self.new(tiles)
   end
-
+  
   def initialize(grid = self.empty_grid)
     @grid = grid
   end
-
+  
   def [](pos)
     x, y = pos
     grid[x][y]
   end
-
+  
   def []=(pos, value)
     x, y = pos
     tile = grid[x][y]
     tile.value = value
   end
-
+  
   def columns
     rows.transpose
   end
-
+  
   def render
     puts "  #{(0..8).to_a.join(" ")}"
     grid.each_with_index do |row, i|
@@ -53,9 +53,8 @@ class Board
 
   def solved?
     rows.all? { |row| solved_set?(row) } &&
-      columns.all? { |col| solved_set?(col) } &&
-      squares.all? { |square| solved_set?(square) }
-    end
+    columns.all? { |col| solved_set?(col) } &&
+    squares.all? { |square| solved_set?(square) }
   end
 
   def solved_set?(tiles)
